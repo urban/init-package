@@ -1,0 +1,55 @@
+{
+  "name": "{{pkg.name}}",
+  "version": "{{pkg.version}}",
+  "description": "{{pkg.description}}",
+  "author": "{{user.name}} <{{user.email}}> ({{user.website}})",
+  "license": "MIT",
+  "keywords": [
+    "ES6",
+    "ES7",
+    "ES2015",
+    "ES2016"
+  ],
+  "bugs": {
+    "url": "https://github.com/{{user.github}}/{{pkg.name}}/issues"
+  },
+  "homepage": "https://github.com/{{user.github}}/{{pkg.name}}",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/{{user.github}}/{{pkg.name}}.git"
+  },
+  "main": "lib/index.js",
+  "jsnext:main": "src/index.js",
+  "scripts": {
+    "build:lib": "NODE_ENV=production babel src --out-dir lib",
+    "build:watch": "babel src --out-dir lib --watch",
+    "build": "rimraf lib && npm run build:lib",
+    "check": "npm run test:lint && npm test && npm run test:audit && npm outdated --depth 0",
+    "prepublish": "npm run build",
+    "test:audit": "nsp check",
+    "test:cov": "rimraf coverage && NODE_ENV=test babel-node $(npm bin)/isparta cover ./test/*-test.js",
+    "test:lint": "standard",
+    "test:typecheck": "flow check ./src",
+    "test": "NODE_ENV=test babel-node $(npm bin)/tape test/*-test.js | tap-spec",
+    "preversion": "npm run check",
+    "version": "npm run build",
+    "postversion": "git push && git push --tags"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.2.0",
+    "babel-eslint": "^4.1.3",
+    "babel-plugin-transform-flow-strip-types": "^6.1.18",
+    "babel-plugin-transform-runtime": "^6.1.18",
+    "babel-preset-es2015": "^6.1.18",
+    "babel-preset-stage-0": "^6.1.18",
+    "isparta": "^4.0.0",
+    "nsp": "^2.0.2",
+    "rimraf": "^2.4.3",
+    "standard": "^5.3.1",
+    "tap-spec": "^4.1.0",
+    "tape": "^4.2.1"
+  },
+  "standard": {
+    "parser": "babel-eslint"
+  }
+}
